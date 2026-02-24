@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日のニュース</title>
+    <link rel="stylesheet" href="assets/commonStyle.css">
+    <link rel="stylesheet" href="assets/style2.css">
+
+</head>
+<body>
+    <!--今日の景気を決めるためのページ-->
+    <div class="tv-frame">
+    <div class="tv-button">
+        <button class="buttonOn">クリックして電源をテレビの電源をつける</button>
+    </div>
+    <div class="tv-screen">
+        <div class="scanline" ></div>
+        <div class="content" id="flash-report">
+        <p class="news-label">ニュース速報</p>
+        <h2 id="getRandomNews">今日の景気を見る</h2>
+        <figure><img src="assets/images/newsCaster.png" alt="ニュースキャスターの画像"></figure>
+    
+    </div>
+
+        <!--テレビ画面遷移後の表示-->
+        <div class="content" id="reaction">
+            <p class="news-label2">ニュース速報</p>
+            <p class="glandEscape">町の様子は・・・</p>
+            <p class="womanComent">たまには贅沢もしたいわね～ </p>
+            <figure class="woman"><img id= 'womanImage' src="assets/images/normal.PNG" alt="普通の反応"></figure>
+        </div>
+
+
+    </div>
+    <button class="nextPage" onclick="location.href='index3.html'" disabled>次へ進む</button>
+
+
+
+    </section>
+    <script>
+       const tvSwich = document.querySelector('.buttonOn');
+       const screen = document.querySelector('.tv-screen');
+       const reaction = document.getElementById('reaction');
+       const flashReport = document.getElementById('flash-report');
+       const swichSound = new Audio('assets/sounds/openSound.mp3');
+       const womanImage = document.getElementById('womanImage');
+       const womanComent = document.querySelector('.womanComent');
+       const nextPage = document.querySelector('.nextPage');
+
+       
+       let womanChangeIndex = 0;
+       let timerId = null;//タイマー重複阻止用
+       
+       const  arr = ["超好景気","好景気","普通","不景気","大不況"]
+        //今何回目のクリックかを保存する変数
+        let count = 0;
+        const maxCount = 1;
+      
+        
+
+        ///ランダムに景気を表示するためのコード
+            if (count < maxCount){
+            const randomIndex = Math.floor(Math.random()* arr.length);
+            const todayNews = arr[randomIndex];
+
+            //ローカルストレージにECという名前で今日の景気を保存
+            localStorage.setItem('randomIndex',randomIndex);
+            localStorage.setItem('EC', todayNews);
+            document.getElementById('getRandomNews').textContent = `今日の景気は ${todayNews}です`;
+
+            //今何回目のクリックかを保存する変数
+            count++;
+            }
+        
+      tvSwich.disabled = false;
+
+     tvSwich.addEventListener('click',()=>{
+        swichSound.play()
+        screen.classList.add('is-open')
+        reaction.style.display = 'none';
+        nextPage.disabled = true;
+        tvSwich.disabled = true;
+
+        setTimeout(()=>{
+            nextPage.disabled = false;
+
+        //定義名.style.display= none(オフ)/block（オン）を使って
+        //画面を切り替えることができる
+         flashReport.style.display= 'none';
+         reaction.style.display= 'block';
+        let randomIndex = Number(localStorage.getItem('randomIndex'));
+        let womanImages2 = [];
+         if (randomIndex === 0 || randomIndex == 1){
+             womanComent.textContent = 'たまには贅沢もしたいわね～';
+             womanImages2 = ['assets/images/happy.PNG','assets/images/talking.PNG'];
+
+         } else if (randomIndex === 2){
+            womanComent.textContent = '最近はパッとしないわね～';
+             womanImages2 = ['assets/images/normal.PNG','assets/images/talking.PNG'];
+           
+         } else {
+            womanComent.textContent = '苦しいぃぃ。耐えの時期よね。'
+            womanImages2 = ['assets/images/despair.PNG','assets/images/talking.PNG'];
+       
+         }
+
+
+
+         //前回のタイマーをストップさせて新しいタイマーを作動させるコード（大切）
+           if(timerId) clearInterval (timerId);
+         timerId = setInterval(()=>{
+            womanChangeIndex = (womanChangeIndex + 1)% 2;
+            womanImage.src = womanImages2[womanChangeIndex];
+        }, 1000);
+
+           //今何年目かを保存する変数
+            let year = Number(localStorage.getItem('year')) || 0;
+            localStorage.setItem('year', year + 1);
+
+        }, 6500);
+
+        
+        
+       
+    
+    });
+    </script>
+    
+</body>
+</html>

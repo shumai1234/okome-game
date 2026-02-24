@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>last</title>
+    <link rel="stylesheet" href="assets/commonStyle.css">
+    <link rel="stylesheet" href="assets/style6.css">
+</head>
+<body>
+    <h1>お疲れ様でした</h1>
+    <h2 id="totalProfits">あなたの合計収支がここに表示されます</h2>
+
+    <button onclick="location.href='index.html'">はじめに戻る</button>
+    <script>
+        const totalProfits = localStorage.getItem('totalProfit');
+        const totalProfit = Number(totalProfits);
+        
+        document.getElementById('totalProfits').textContent = `あなたの3年間の合計収支は${totalProfit}円でした。`;
+    </script>
+</body>
+</html>

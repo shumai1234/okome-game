@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お米ゲームへようこそ</title>
+    <link rel="stylesheet" href="assets/commonStyle.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <section class="welcome">
+    <h1>お米ゲームへようこそ</h1>
+    <p>あなたはお米屋さんの経営者です</p>
+    <p>このゲームでは、経営者のあなたにお米の取引をしていただき、利益の最大化を目指してもらいます。</p>
+    <p>お店には毎年５人の常連客が訪れます。その日の景気予測や地域の人の反応ををもとに売れそうなお米を選んでお客さんにたくさん買ってもらいましょう！</p>
+    <p class="highlight">期間は<strong>３年間！</strong>３年で利益の最大化を目指してね！</p>
+
+    <!--アニメーション１-->
+    <div class="animation1-container">
+       <img  id="changing-farmer"  src="assets/images/farmer1.png" alt="農家の画像">
+    </div>
+    
+    <a href="index2.html" class="start-button" id="start-btn">ゲームを始める</a>
+    <figure class="hero-image">
+        <img src="assets/images/farmer.jpg" alt="お米ゲームのイメージ画像">
+    </figure>
+    </section>
+
+    <script>
+        //過去のデータ消去
+        document.getElementById('start-btn').addEventListener('click',() =>{
+        localStorage.setItem('totalProfit', 0); 
+        localStorage.setItem('year', 0);
+        });
+
+        const farmerImages= [
+            'assets/images/farmer1.png',
+            'assets/images/farmer2.png'
+        ]
+
+        let page1Index = 0;
+        const farmerElement = document.getElementById('changing-farmer')
+
+        const imgPreload = new Image();
+        imgPreload.src = farmerImages[1]
+
+        setInterval(()=>{
+            page1Index = (page1Index + 1)% farmerImages.length;
+            farmerElement.src = farmerImages[page1Index];
+        }, 1000);
+
+    </script>
+</body>
+</html>

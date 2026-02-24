@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rice-TV</title>
+  
+    <style>
+        /* テレビの外枠 */
+.tv-frame {
+  width: 90%;
+  max-width: 700px;
+  margin: 20px auto;
+  background: #333; /* 黒いフレーム */
+  padding: 15px;
+  border-radius: 20px;
+  border: 5px solid #1a1a1a;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* 画面部分 */
+.tv-screen {
+  background: #111;
+  height: 350px;
+  /*positionはそいつが親要素か子要素かを宣言している
+  relativeが親・absoluteが子だよ
+  positionがあることでz-indexも有効になるよ*/
+  position: relative;
+  /*overflow: hidden;は親要素に書くことで親要素の枠から
+  はみ出したものを自動的に消去してくれるよ*/
+  overflow: hidden;
+  border-radius: 10px;
+  display: none;
+  
+  
+}
+.tv-screen.is-open {
+  /* スイッチが入った時のアニメーション */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: tv-on 3s ease-in forwards;
+}
+/*@keyframeがルールでanimationがそれを実行するプロパティ*/
+/* テレビがつく時のアニメーション */
+@keyframes tv-on {
+  0% { transform: scaleY(0.005) scaleX(0); filter: brightness(5); }
+  50% { transform: scaleY(0.005) scaleX(1); filter: brightness(5); }
+  100% { transform: scaleY(1) scaleX(1); filter: brightness(1); }
+}
+
+button {
+  background-color: rgb(58, 52, 52);
+  border-radius: 20px;
+  color: darkolivegreen;
+}
+/* 走査線（テレビ特有の横線） */
+.scanline {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  /*backgroundの上段で横軸の色を指定。下段で縦軸の色を指定(90deg)
+  さらに、background-sizeで２種類の色の間隔をピクセルで指定してる*/
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ニューステロップ風の文字 */
+.news-label {
+  background: #d32f2f;
+  color: white;
+  display: inline-block;
+  padding: 2px 20px;
+  /*font-weightのプロパティは文字の太さを示す*/
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.tv-screen h2 {
+  color: #00ff00; /* レトロな緑色の文字 */
+  font-family: 'Courier New', Courier, monospace;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.content img{
+  position: absolute;
+  display: flex;
+  bottom: 20px;
+  right: 20px;
+  width: 150px;
+  height: auto;
+}
+    </style>
+</head>
+<body>
+  
+<div class="tv-frame">
+  <div class="tv-button">
+    <button class="buttonOn">クリックして電源をつけてみましょう</button>
+  </div>
+  <div class="tv-screen">
+    <div class="scanline"></div>
+    <div class="content">
+      
+      <p class="news-label">ニュース速報</p>
+      <h2 id="market-status">今日の景気：絶好調！</h2>
+      <figure><img src="assets/images/newsCaster.png" alt="ニュースキャスターの画像"></figure>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  //一行目でボタンとtvSwitchが同期し、
+  ///２行目でJSのscreenとhtml内の.tvscreenと同期している
+  //その後にscreen.classList.add('.is-open')で.tv-screenに
+  //.is-openを追加しているということ
+    const tvSwitch = document.querySelector('.buttonOn');
+    const screen = document.querySelector('.tv-screen');
+    //サウンドエフェクトの入れ方
+    const swichSound = new Audio('assets/sounds/openSound.MP3.mp3');
+    swichSound.volume = 0.6;
+    tvSwitch.addEventListener('click',()=>{
+      swichSound.play()
+      screen.classList.add('is-open')
+    });
+
+
+
+
+    const marketConditions = ["絶好調", "やや良好", "普通", "不況の兆し", "大不況"];
+const statusElement = document.getElementById('market-status');
+// ランダムに1つ選ぶ
+const todayCondition = marketConditions[Math.floor(Math.random() * marketConditions.length)];
+
+// 画面に表示
+statusElement.textContent = `今日の景気：${todayCondition}`;
+</script>
+</body>
+</html>
