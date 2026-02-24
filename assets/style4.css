@@ -1,0 +1,82 @@
+h1{
+    font-size: clamp(28px, 6vw, 70px);
+    text-align: center;
+    color: rgb(228, 168, 77);
+}
+
+.main button{
+    display: block;
+    margin: 40px auto;
+    padding: 10px 20px;
+    font-size: clamp(16px, 4vw, 24px);
+    background-color: rgb(128, 216, 90);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.main .presenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main .presenter img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: auto;
+
+}
+
+
+
+.under h2{
+    font-size: 35px;
+}
+
+.under p{
+    font-size: 20px;
+}
+
+.under button{
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    font-size: clamp(16px,4vw,24px);
+    background-color: rgb(128, 216, 90);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.customerBox{
+    position: relative;
+    flex-direction:  column;
+    height: 230px;
+    width: 90%;
+    margin: 0 auto;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.customerBox img{
+    position: absolute;
+    height: auto;
+    max-width: 200px;
+    right: -250px;
+    bottom: 0;
+    transition: right 1.0s ease-out;
+}
+
+.customerBox img.slideIn{
+    right: 70px;
+}
+
+.main button:disabled {
+    background-color: gray;
+}
